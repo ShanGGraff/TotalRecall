@@ -22,7 +22,7 @@ public class TotalRecallMainActivity extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_total_recall);
-        //testing branching
+        //testing branching part deux
         ListView myListView = (ListView)findViewById(R.id.listView);
         
         try
