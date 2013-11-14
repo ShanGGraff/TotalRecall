@@ -6,16 +6,20 @@ import java.net.URL;
 
 import com.google.gson.Gson;
 
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.util.Log;
 
-public class AccessDataGov extends AsyncTask<Void, Void, Recalls>
+public class AccessDataGov
 {
-	protected Recalls doInBackground(Void...voids)
+	public static final String SEARCH_QUERY = "searchQuery";
+	private static final String BASE = "http://api.usa.gov/recalls/search.json?";
+    private static final String RECENT = "date";
+    private static final String PER_PAGE = "20";
+    
+    public Recalls fetchJson(String  url) 
     {
-        try
+    	try
         {
-        	String url = "http://api.usa.gov/recalls/search.json?sort=date&per_page=50";
             URL dataGov = new URL(url);
             BufferedReader in = new BufferedReader(new InputStreamReader(dataGov.openStream())); 
             
@@ -29,7 +33,26 @@ public class AccessDataGov extends AsyncTask<Void, Void, Recalls>
         {
             Log.e("Error_Message", "Problem connecting" + e.toString());
             return null;
-        } 
-         
+        }
+    }
+    
+    public Recalls recent()
+    {
+    	String url = Uri.parse(BASE).buildUpon()
+                .appendQueryParameter("sort", RECENT)
+                .appendQueryParameter("per_page", PER_PAGE)
+                .build().toString();
+    	
+        return fetchJson(url);
+    }
+    
+    public Recalls search(String query)
+    {
+    	String url = Uri.parse(BASE).buildUpon()
+                .appendQueryParameter("sort", RECENT)
+                .appendQueryParameter("per_page", PER_PAGE)
+                .appendQueryParameter("query", query)
+                .build().toString();
+        return fetchJson(url);
     }
 }

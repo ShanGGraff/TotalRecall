@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package edu.vt.cs5744;
+package edu.vt.cs5744.totalrecall;
 
 public final class R {
     public static final class attr {

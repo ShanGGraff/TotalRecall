@@ -1,9 +1,10 @@
 package edu.vt.cs5744;
 
 import android.content.Context;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 
-public class RecallReceiver 
+public class RecallReceiver
 {
 	private Recalls mApi;
 	private static RecallReceiver sRecallReceiver;
@@ -11,16 +12,7 @@ public class RecallReceiver
 
     private RecallReceiver(Context appContext) 
     {
-        mAppContext = appContext;
-        try
-        {
-        	mApi = new AccessDataGov().execute().get();
-        }
-        catch(Exception e)
-        {
-        	
-        	Log.e("Error_Message", "Problem connecting" + e.toString());
-        }   
+        mAppContext = appContext;  
     }
 
     public static RecallReceiver get(Context c) 
@@ -32,7 +24,12 @@ public class RecallReceiver
         return sRecallReceiver;
     }
     
-    public Recalls getReturnApi() 
+    public void setRecalls(Recalls recalls)
+    {
+    	mApi = recalls;
+    }
+    
+    public Recalls getRecalls() 
     {
         return mApi;
     }

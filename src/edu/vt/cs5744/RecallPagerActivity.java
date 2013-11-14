@@ -20,7 +20,7 @@ public class RecallPagerActivity extends FragmentActivity
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
         
-        mApi = RecallReceiver.get(this).getReturnApi();
+        mApi = RecallReceiver.get(this).getRecalls();
         
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) 
