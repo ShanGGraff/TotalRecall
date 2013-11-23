@@ -158,37 +158,354 @@ public class Results
 		return this.recall_subject;
 	}
 	
-	public String recordsToString()
+	/*
+	 * ----------------------------------------------------------------
+	 */
+	
+	public String organizationToString()
 	{
-		return new StringBuffer("").append(this.records).toString();
+		if(this.organization == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.organization;
+		}	
 	}
+	
+	public String recallNumberToString()
+	{
+		if(this.recall_number == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.recall_number;
+		}	
+	}
+	
+	public String recallDateToString()
+	{
+		if(this.recall_date == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.recall_date;
+		}	
+	}
+	
+	public String recallUrlToString() 
+	{
+		if(this.recall_url == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.recall_url;
+		}
+	}
+	
+	/*
+	 * ----------------------------------------------------------------
+	 */
 	
 	public String manufacturersToString()
 	{
-		return new StringBuffer("").append(this.manufacturers).toString();
+		StringBuffer returnManufacturers = new StringBuffer("");
+		for(String m : this.manufacturers)
+		{
+			if(m == null)
+			{
+				returnManufacturers.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnManufacturers.append(m).append(", ");
+			}
+		}
+		returnManufacturers.deleteCharAt(returnManufacturers.length()-2); 
+		return returnManufacturers.toString();
 	}
+	
 	public String typeToString()
 	{
-		return new StringBuffer("").append(this.product_types).toString();
+		StringBuffer returnType = new StringBuffer("");
+		for(String t : this.product_types)
+		{
+			if(t == null)
+			{
+				returnType.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnType.append(t).append(", ");
+			}	
+		}
+		returnType.deleteCharAt(returnType.length()-2); 
+		return returnType.toString();
 	}
 	
 	public String descriptionsToString()
 	{
-		return new StringBuffer("").append(this.descriptions).toString();
+		StringBuffer returnDescriptions = new StringBuffer("");
+		for(String d : this.descriptions)
+		{
+			if(d == null)
+			{
+				returnDescriptions.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnDescriptions.append(d).append(", ");
+			}	
+		}
+		returnDescriptions.deleteCharAt(returnDescriptions.length()-2); 
+		return returnDescriptions.toString();
 	}
 	
 	public String upcsToString()
 	{
-		return new StringBuffer("").append(this.upcs).toString();
+		StringBuffer returnUpcs = new StringBuffer("");
+		for(String u : this.upcs)
+		{
+			if(u == null)
+			{
+				returnUpcs.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnUpcs.append(u).append(", ");
+			}
+		}
+		returnUpcs.deleteCharAt(returnUpcs.length()-2); 
+		return returnUpcs.toString();
 	}
 	
 	public String hazardsToString()
 	{
-		return new StringBuffer("").append(this.hazards).toString();
+		StringBuffer returnHazards = new StringBuffer("");
+		for(String h : this.hazards)
+		{
+			if(h == null)
+			{
+				returnHazards.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnHazards.append(h).append(", ");
+			}
+		}
+		returnHazards.deleteCharAt(returnHazards.length()-2); 
+		return returnHazards.toString();
 	}
 	
 	public String countriesToString()
 	{
-		return new StringBuffer("").append(this.countries).toString();
+		StringBuffer returnCountries = new StringBuffer("");
+		for(String c : this.countries)
+		{
+			if(c == null)
+			{
+				returnCountries.append("Not Available").append(", ");
+			}
+			else
+			{
+				returnCountries.append(c).append(", ");
+			}
+		}
+		returnCountries.deleteCharAt(returnCountries.length()-2); 
+		return returnCountries.toString();
+	}
+	
+	/*
+	 * ----------------------------------------------------------------
+	 */
+	
+	public String descriptionToString()
+	{
+		if(this.description == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.description;
+		}
+	}
+	
+	public String summaryToString()
+	{
+		if(this.summary == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.summary;
+		}	
+	}
+	
+	/*
+	 * ----------------------------------------------------------------
+	 */
+
+	public String recordsToString()
+	{
+		StringBuffer returnRecords = new StringBuffer("");
+		for(Records r : this.records)
+		{
+			returnRecords.append(r.toString()).append("\n");
+		}
+		returnRecords.deleteCharAt(returnRecords.length()-1); 
+		return returnRecords.toString();
+	}
+	
+	public String manufacturerCampaignNumberToString() 
+	{
+		if(this.manufacturer_campaign_number == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.manufacturer_campaign_number;
+		}	
+	}
+	
+	public String componentDescriptionToString()
+	{
+		if(this.component_description == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.component_description;
+		}
+	}
+
+	public String manufacturerToString() 
+	{
+		if(this.manufacturer == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.manufacturer;
+		}	
+	}
+	
+	public String codeToString() 
+	{
+		if(this.code == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.code;
+		}	
+	}
+
+	public String potentialUnitsAffectedToString() 
+	{
+		if(this.potential_units_affected == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.potential_units_affected;
+		}	
+	}
+
+	public String initiatorToString() 
+	{
+		if(this.initiator == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.initiator;
+		}
+	}
+
+	public String reportDateToString() 
+	{
+		if(this.report_date == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.report_date;
+		}
+	}
+
+	public String defectSummaryToString() 
+	{
+		if(this.defect_summary == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.defect_summary;
+		}
+	}
+
+	public String consequenceSummaryToString() 
+	{
+		if(this.consequence_summary == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.consequence_summary;
+		}	
+	}
+
+	public String correctiveSummaryToString() 
+	{
+		if(this.corrective_summary == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.corrective_summary;
+		}	
+	}
+
+	public String notesToString() 
+	{
+		if(this.notes == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.notes;
+		}
+	}
+
+	public String recallSubjectToString() 
+	{
+		if(this.recall_subject == null)
+		{
+			return "Not Available";
+		}
+		else
+		{
+			return this.recall_subject;
+		}
 	}
 }

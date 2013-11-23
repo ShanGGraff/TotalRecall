@@ -18,6 +18,7 @@ public class RecallFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) 
     {
     	super.onCreate(savedInstanceState);
+    	setRetainInstance(true);
     	String recall_number = (String)getArguments().getSerializable(EXTRA_RECALL_ID);
     	
     	mApi = RecallReceiver.get(getActivity()).getResults(recall_number);
@@ -32,34 +33,31 @@ public class RecallFragment extends Fragment
         	View v = inflater.inflate(R.layout.fragment_recall_cpsc, parent, false);
         	
         	TextView mOrganizationField = (TextView)v.findViewById(R.id.recall_organization);
-        	mOrganizationField.setText(mApi.getOrganization());
+        	mOrganizationField.setText("Organization: " + mApi.organizationToString());
         	
             TextView mNumberField = (TextView)v.findViewById(R.id.recall_number);
-            mNumberField.setText(mApi.getRecallNumber());
+            mNumberField.setText("ID: " + mApi.recallNumberToString());
             
             TextView mDateField = (TextView)v.findViewById(R.id.recall_date);
-            mDateField.setText(mApi.getRecallDate());
+            mDateField.setText("Date: " + mApi.recallDateToString());
             
             TextView mUrlField = (TextView)v.findViewById(R.id.recall_url);
-            mUrlField.setText(mApi.getRecallUrl());
+            mUrlField.setText("URL: " + mApi.recallUrlToString());
             
             TextView mManufacturersField = (TextView)v.findViewById(R.id.recall_manufacturers);
-            mManufacturersField.setText(mApi.manufacturersToString());
+            mManufacturersField.setText("Manufacturers: " + mApi.manufacturersToString());
             
             TextView mTypeField = (TextView)v.findViewById(R.id.recall_types);
-            mTypeField.setText(mApi.typeToString());
+            mTypeField.setText("Types: " + mApi.typeToString());
             
             TextView mDescriptionsField = (TextView)v.findViewById(R.id.recall_descriptions);
-            mDescriptionsField.setText(mApi.descriptionsToString());
-            
-            TextView mUpcsField = (TextView)v.findViewById(R.id.recall_upcs);
-            mUpcsField.setText(mApi.upcsToString());
+            mDescriptionsField.setText("Descriptions: " + mApi.descriptionsToString());
             
             TextView mHazardsField = (TextView)v.findViewById(R.id.recall_hazards);
-            mHazardsField.setText(mApi.hazardsToString());
+            mHazardsField.setText("Hazards: " + mApi.hazardsToString());
             
             TextView mCountriesField = (TextView)v.findViewById(R.id.recall_countries);
-            mCountriesField.setText(mApi.countriesToString());  
+            mCountriesField.setText("Countries: " + mApi.countriesToString());  
             
             return v;
 		}
@@ -68,55 +66,55 @@ public class RecallFragment extends Fragment
 			View v = inflater.inflate(R.layout.fragment_recall_nhtsa, parent, false);
 			
 			TextView mOrganizationField = (TextView)v.findViewById(R.id.recall_organization);
-        	mOrganizationField.setText(mApi.getOrganization());
+        	mOrganizationField.setText("Organization: " + mApi.organizationToString());
         	
             TextView mNumberField = (TextView)v.findViewById(R.id.recall_number);
-            mNumberField.setText(mApi.getRecallNumber());
+            mNumberField.setText("ID: " + mApi.recallNumberToString());
             
             TextView mDateField = (TextView)v.findViewById(R.id.recall_date);
-            mDateField.setText(mApi.getRecallDate());
+            mDateField.setText("Date: " + mApi.recallDateToString());
             
             TextView mUrlField = (TextView)v.findViewById(R.id.recall_url);
-            mUrlField.setText(mApi.getRecallUrl());
+            mUrlField.setText("URL: " + mApi.recallUrlToString());
             
             TextView mRecordsField = (TextView)v.findViewById(R.id.recall_records);
             mRecordsField.setText(mApi.recordsToString());
 	        
             TextView mManufacturerCampaignNumberField = (TextView)v.findViewById(R.id.recall_manufacturer_campaign_number);
-            mManufacturerCampaignNumberField.setText(mApi.getManufacturerCampaignNumber());
+            mManufacturerCampaignNumberField.setText("Manufacturer Campaign Number: " + mApi.manufacturerCampaignNumberToString());
             
             TextView mComponentDescriptionField = (TextView)v.findViewById(R.id.recall_component_description);
-            mComponentDescriptionField.setText(mApi.getComponentDescription());
+            mComponentDescriptionField.setText("Component Description: " + mApi.componentDescriptionToString());
             
             TextView mManufacturerField = (TextView)v.findViewById(R.id.recall_manufacturer);
-            mManufacturerField.setText(mApi.getManufacturer());
+            mManufacturerField.setText("Manufacturer: " + mApi.manufacturerToString());
             
             TextView mCodeField = (TextView)v.findViewById(R.id.recall_code);
-            mCodeField.setText(mApi.getCode());
+            mCodeField.setText("Code: " + mApi.codeToString());
             
             TextView mPotentialUnitsAffectedField = (TextView)v.findViewById(R.id.recall_potential_units_affected);
-            mPotentialUnitsAffectedField.setText(mApi.getPotentialUnitsAffected());
+            mPotentialUnitsAffectedField.setText("Potential Units Affected: " + mApi.potentialUnitsAffectedToString());
             
             TextView mInitiatorField = (TextView)v.findViewById(R.id.recall_initiator);
-            mInitiatorField.setText(mApi.getInitiator());
+            mInitiatorField.setText("Initiator: " + mApi.initiatorToString());
             
             TextView mReportDateField = (TextView)v.findViewById(R.id.recall_report_date);
-            mReportDateField.setText(mApi.getRecallDate());
+            mReportDateField.setText("Report Date: " + mApi.reportDateToString());
             
             TextView mDefectSummaryField = (TextView)v.findViewById(R.id.recall_defect_summary);
-            mDefectSummaryField.setText(mApi.getDefectSummary());
+            mDefectSummaryField.setText("Defect Summary: " + mApi.defectSummaryToString());
             
             TextView mConsequenceSummaryField = (TextView)v.findViewById(R.id.recall_consequence_summary);
-            mConsequenceSummaryField.setText(mApi.getConsequenceSummary());
+            mConsequenceSummaryField.setText("Consequence Summary: " + mApi.consequenceSummaryToString());
             
             TextView mCorrectiveSummaryField = (TextView)v.findViewById(R.id.recall_corrective_summary);
-            mCorrectiveSummaryField.setText(mApi.getCorrectiveSummary());
+            mCorrectiveSummaryField.setText("Corrective Summary: " + mApi.correctiveSummaryToString());
             
             TextView mNotesField = (TextView)v.findViewById(R.id.recall_notes);
-            mNotesField.setText(mApi.getNotes());
+            mNotesField.setText("Notes: " + mApi.notesToString());
             
-            TextView mRecallSubjectField = (TextView)v.findViewById(R.id.recall_recall_subject);
-            mRecallSubjectField.setText(mApi.getRecallSubject());
+            TextView mRecallSubjectField = (TextView)v.findViewById(R.id.recall_subject);
+            mRecallSubjectField.setText("Subject: " + mApi.recallSubjectToString());
             
 	        return v;
 		}
@@ -125,22 +123,22 @@ public class RecallFragment extends Fragment
 			View v = inflater.inflate(R.layout.fragment_recall_fdausda, parent, false);
 			
 			TextView mOrganizationField = (TextView)v.findViewById(R.id.recall_organization);
-			mOrganizationField.setText(mApi.getOrganization());
+			mOrganizationField.setText("Organization: " + mApi.organizationToString());
 	        
 	        TextView mNumberField = (TextView)v.findViewById(R.id.recall_number);
-	        mNumberField.setText(mApi.getRecallNumber());
+	        mNumberField.setText("ID: " + mApi.recallNumberToString());
 	        
 	        TextView mDateField = (TextView)v.findViewById(R.id.recall_date);
-	        mDateField.setText(mApi.getRecallDate());
+	        mDateField.setText("Date: " + mApi.recallDateToString());
 	        
 	        TextView mUrlField = (TextView)v.findViewById(R.id.recall_url);
-	        mUrlField.setText(mApi.getRecallUrl());
+	        mUrlField.setText("URL: " + mApi.recallUrlToString());
 	        
 	        TextView mDescriptionField = (TextView)v.findViewById(R.id.recall_description);
-	        mDescriptionField.setText(mApi.getDescription());
+	        mDescriptionField.setText("Description: " + mApi.descriptionToString());
 	        
 	        TextView mSummaryField = (TextView)v.findViewById(R.id.recall_summary);
-	        mSummaryField.setText(mApi.getSummary());
+	        mSummaryField.setText("Summary: " + mApi.summaryToString());
 	        
 	        return v;
 		} 

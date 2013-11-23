@@ -20,34 +20,47 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AbsListView.OnScrollListener;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class RecallListFragment extends ListFragment 
 {
 	private static final String TAG = "RecallListFragment";
+	private int currentPage = 1;
+	private RecallsAdapter adapter;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         setHasOptionsMenu(true);
-        updateItems(); 
-	}  
-	
-	public void updateItems() 
-	{
-		try
+        updateItems(currentPage);   
+    }  
+     	
+    public void updateItems(Integer page) 
+    {
+    	try
         {
-			new FetchRecallsTask().execute();
+    		new FetchRecallsTask().execute(page);
         }
         catch(Exception e)
         {
         	Log.e("Error_Message", "Problem connecting" + e.toString());
         } 
+    }
+    
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) 
+	{
+        super.onActivityCreated(savedInstanceState);  
+        getListView().setOnScrollListener(new EndlessScrollListener());   
 	}
 	
 	@Override
@@ -82,13 +95,13 @@ public class RecallListFragment extends ListFragment
 			 
 			 TextView organizationTextView =
 					 (TextView)convertView.findViewById(R.id.recall_list_item_organizationTextView);
-			 organizationTextView.setText(a.getOrganization());
+			 organizationTextView.setText(a.organizationToString());
 			 TextView titleTextView =
 					 (TextView)convertView.findViewById(R.id.recall_list_item_idTextView);
-			 titleTextView.setText(a.getRecallNumber());
+			 titleTextView.setText(a.recallNumberToString());
 			 TextView dateTextView =
 					 (TextView)convertView.findViewById(R.id.recall_list_item_dateTextView);
-			 dateTextView.setText(a.getRecallDate());
+			 dateTextView.setText(a.recallDateToString());
 			 
 			 if(a.getOrganization().equalsIgnoreCase("CPSC"))
 			 {
@@ -100,13 +113,13 @@ public class RecallListFragment extends ListFragment
 			 {
 				 TextView descriptionTextView =
 			    		 (TextView)convertView.findViewById(R.id.recall_list_item_descriptionTextView);
-			     descriptionTextView.setText(a.getDefectSummary());
+			     descriptionTextView.setText(a.defectSummaryToString());
 			 }
 			 else if(a.getOrganization().equalsIgnoreCase("FDA") || a.getOrganization().equalsIgnoreCase("USDA"))
 			 {
 				 TextView descriptionTextView =
 			    		 (TextView)convertView.findViewById(R.id.recall_list_item_descriptionTextView);
-			     descriptionTextView.setText(a.getSummary());
+			     descriptionTextView.setText(a.summaryToString());
 			 }
 			 
 			 return convertView; 
@@ -147,17 +160,43 @@ public class RecallListFragment extends ListFragment
 	                .edit()
 	                .putString(AccessDataGov.SEARCH_QUERY, null)
 	                .commit();
-	            updateItems();
+	        	 currentPage = 1;
+	        	 updateItems(currentPage);
+	             return true;
+	         case R.id.menu_item_toggle_polling:
+	             boolean shouldStartAlarm = !PollService.isServiceAlarmOn(getActivity());
+	             PollService.setServiceAlarm(getActivity(), shouldStartAlarm);
+
+	             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+	                 getActivity().invalidateOptionsMenu();
+	             
 	             return true;
 	         default:
 	             return super.onOptionsItemSelected(item);
 	     }
 	}
 	
-	private class FetchRecallsTask extends AsyncTask<Void, Void, Recalls>
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) 
+	{
+	    super.onPrepareOptionsMenu(menu);
+
+	    MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
+	    if (PollService.isServiceAlarmOn(getActivity())) 
+	    {
+	    	toggleItem.setChecked(true);
+	    } 
+	    else
+	    {
+	    	toggleItem.setChecked(false);
+	    }
+	    
+	}
+	
+	private class FetchRecallsTask extends AsyncTask<Integer, Void, Recalls>
 	{
 	    @Override
-	    protected Recalls doInBackground(Void... params) 
+	    protected Recalls doInBackground(Integer... params) 
 	    {       
 	        Activity activity = getActivity();
 	        if (activity == null)
@@ -169,20 +208,78 @@ public class RecallListFragment extends ListFragment
 	        		.getString(AccessDataGov.SEARCH_QUERY, null);
 	        if (query != null) 
 	        {
-	            return new AccessDataGov().search(query);
+	        	currentPage = params[0];
+	            return new AccessDataGov().search(params[0], query);
 	        } 
 	        else 
 	        {
-	            return new AccessDataGov().recent();
+	            return new AccessDataGov().recent(params[0]);
 	        }
 	    }
 	    
 	    protected void onPostExecute(Recalls recalls)
 	    {
-	    	RecallReceiver.get(getActivity()).setRecalls(recalls);
-	    	getActivity().setTitle(R.string.recall_title);
-		    RecallsAdapter adapter = new RecallsAdapter(recalls.getSuccess().getResults());
-		    setListAdapter(adapter); 
+	    	if(recalls != null)
+	    	{
+	    		if(currentPage == 1)
+		    	{	
+		    		RecallReceiver.get(getActivity()).setRecalls(recalls);
+		    		getActivity().setTitle(R.string.recall_title);
+		    		adapter = new RecallsAdapter(recalls.getSuccess().getResults());
+				    setListAdapter(adapter);
+		    	}
+		    	else
+		    	{
+		    		adapter.addAll(recalls.getSuccess().getResults());
+		    	}
+	    		getListView().setOnScrollListener(new EndlessScrollListener());
+	    	}
+	    	else
+	    	{
+	    		Toast.makeText(getActivity(), R.string.no_connection, Toast.LENGTH_LONG).show();
+	    	}
+	    }   
+	}
+
+	private class EndlessScrollListener implements OnScrollListener
+	{
+		private int visibleThreshold = 5;
+	    private int previousTotal = 0;
+	    private boolean loading = true;
+
+	    protected EndlessScrollListener() 
+	    {
+	
+	    }
+
+	    @Override
+	    public void onScroll(AbsListView view, int firstVisibleItem,
+	            int visibleItemCount, int totalItemCount) 
+	    {
+	        if (loading) 
+	        {
+	            if (totalItemCount > previousTotal) 
+	            {
+	                loading = false;
+	                previousTotal = totalItemCount;
+	                currentPage++;
+	            }
+	        }
+	        if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) 
+	        {
+	            loading = true;
+	            if(currentPage < 20 && 
+	            		totalItemCount < RecallReceiver.get(getActivity()).getRecalls().getSuccess().getTotal())
+	            {
+	            	updateItems(currentPage);	
+	            }
+	        }
+	    }
+
+	    @Override
+	    public void onScrollStateChanged(AbsListView view, int scrollState) 
+	    {
+	    	
 	    }
 	}
 }

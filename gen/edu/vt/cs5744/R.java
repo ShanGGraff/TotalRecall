@@ -25,36 +25,36 @@ public final class R {
     }
     public static final class id {
         public static final int fragmentContainer=0x7f060001;
-        public static final int menu_item_clear=0x7f060020;
-        public static final int menu_item_search=0x7f06001f;
-        public static final int recall_code=0x7f060012;
-        public static final int recall_component_description=0x7f060010;
-        public static final int recall_consequence_summary=0x7f060017;
-        public static final int recall_corrective_summary=0x7f060018;
-        public static final int recall_countries=0x7f06000b;
+        public static final int menu_item_clear=0x7f06001f;
+        public static final int menu_item_search=0x7f06001e;
+        public static final int menu_item_toggle_polling=0x7f060020;
+        public static final int recall_code=0x7f060011;
+        public static final int recall_component_description=0x7f06000f;
+        public static final int recall_consequence_summary=0x7f060016;
+        public static final int recall_corrective_summary=0x7f060017;
+        public static final int recall_countries=0x7f06000a;
         public static final int recall_date=0x7f060004;
-        public static final int recall_defect_summary=0x7f060016;
-        public static final int recall_description=0x7f06000c;
+        public static final int recall_defect_summary=0x7f060015;
+        public static final int recall_description=0x7f06000b;
         public static final int recall_descriptions=0x7f060008;
-        public static final int recall_hazards=0x7f06000a;
-        public static final int recall_initiator=0x7f060014;
-        public static final int recall_list_item_dateTextView=0x7f06001d;
-        public static final int recall_list_item_descriptionTextView=0x7f06001e;
-        public static final int recall_list_item_idTextView=0x7f06001c;
-        public static final int recall_list_item_organizationTextView=0x7f06001b;
-        public static final int recall_manufacturer=0x7f060011;
-        public static final int recall_manufacturer_campaign_number=0x7f06000f;
+        public static final int recall_hazards=0x7f060009;
+        public static final int recall_initiator=0x7f060013;
+        public static final int recall_list_item_dateTextView=0x7f06001c;
+        public static final int recall_list_item_descriptionTextView=0x7f06001d;
+        public static final int recall_list_item_idTextView=0x7f06001b;
+        public static final int recall_list_item_organizationTextView=0x7f06001a;
+        public static final int recall_manufacturer=0x7f060010;
+        public static final int recall_manufacturer_campaign_number=0x7f06000e;
         public static final int recall_manufacturers=0x7f060006;
-        public static final int recall_notes=0x7f060019;
+        public static final int recall_notes=0x7f060018;
         public static final int recall_number=0x7f060003;
         public static final int recall_organization=0x7f060002;
-        public static final int recall_potential_units_affected=0x7f060013;
-        public static final int recall_recall_subject=0x7f06001a;
-        public static final int recall_records=0x7f06000e;
-        public static final int recall_report_date=0x7f060015;
-        public static final int recall_summary=0x7f06000d;
+        public static final int recall_potential_units_affected=0x7f060012;
+        public static final int recall_records=0x7f06000d;
+        public static final int recall_report_date=0x7f060014;
+        public static final int recall_subject=0x7f060019;
+        public static final int recall_summary=0x7f06000c;
         public static final int recall_types=0x7f060007;
-        public static final int recall_upcs=0x7f060009;
         public static final int recall_url=0x7f060005;
         public static final int viewPager=0x7f060000;
     }
@@ -71,9 +71,14 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f070000;
         public static final int clear_search=0x7f070004;
+        public static final int loading=0x7f070009;
+        public static final int new_pictures_text=0x7f070007;
+        public static final int new_pictures_title=0x7f070006;
+        public static final int no_connection=0x7f070008;
         public static final int recall_title=0x7f070001;
         public static final int search=0x7f070003;
         public static final int search_hint=0x7f070002;
+        public static final int start_polling=0x7f070005;
     }
     public static final class style {
         /** 

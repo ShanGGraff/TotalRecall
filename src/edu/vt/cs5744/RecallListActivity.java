@@ -33,6 +33,6 @@ public class RecallListActivity extends SingleFragmentActivity
             .commit();
 	    }
 
-	    fragment.updateItems(); 
+	    fragment.updateItems(1); 
 	}
 }

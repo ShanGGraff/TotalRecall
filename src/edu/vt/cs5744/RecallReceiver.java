@@ -1,8 +1,6 @@
 package edu.vt.cs5744;
 
 import android.content.Context;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 
 public class RecallReceiver
 {
