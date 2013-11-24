@@ -40,10 +40,10 @@ public class RecallListFragment extends ListFragment
 	{
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        setHasOptionsMenu(true);
-        updateItems(currentPage);   
+        setHasOptionsMenu(true);  
+        updateItems(currentPage); 
     }  
-     	
+	
     public void updateItems(Integer page) 
     {
     	try
@@ -62,6 +62,8 @@ public class RecallListFragment extends ListFragment
         super.onActivityCreated(savedInstanceState);  
         getListView().setOnScrollListener(new EndlessScrollListener());   
 	}
+    
+    
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) 
@@ -221,6 +223,7 @@ public class RecallListFragment extends ListFragment
 	    {
 	    	if(recalls != null)
 	    	{
+	    		
 	    		if(currentPage == 1)
 		    	{	
 		    		RecallReceiver.get(getActivity()).setRecalls(recalls);
@@ -230,7 +233,11 @@ public class RecallListFragment extends ListFragment
 		    	}
 		    	else
 		    	{
-		    		adapter.addAll(recalls.getSuccess().getResults());
+		    		if(!adapter.getItem(0).recallNumberToString()
+		    				.equals(recalls.getSuccess().getResults().get(0).recallNumberToString()))
+		    		{
+		    			adapter.addAll(recalls.getSuccess().getResults());
+		    		}
 		    	}
 	    		getListView().setOnScrollListener(new EndlessScrollListener());
 	    	}
