@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class RecallFragment extends Fragment 
 {
 	public static final String EXTRA_RECALL_ID =
-	        "vt.edu.sc5744.recall_id";
+	        "vt.edu.cs5744.recall_id";
 	private Results mApi;
 	
     @Override

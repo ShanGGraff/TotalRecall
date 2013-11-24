@@ -72,8 +72,8 @@ public final class R {
         public static final int app_name=0x7f070000;
         public static final int clear_search=0x7f070004;
         public static final int loading=0x7f070009;
-        public static final int new_pictures_text=0x7f070007;
-        public static final int new_pictures_title=0x7f070006;
+        public static final int new_recalls_text=0x7f070007;
+        public static final int new_recalls_title=0x7f070006;
         public static final int no_connection=0x7f070008;
         public static final int recall_title=0x7f070001;
         public static final int search=0x7f070003;

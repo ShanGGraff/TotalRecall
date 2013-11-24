@@ -6,8 +6,8 @@
     <string name="search">Search</string>
     <string name="clear_search">Clear Search</string>
     <string name="start_polling">Notifications</string>
-    <string name="new_pictures_title">Total Recall</string>
-    <string name="new_pictures_text">New product recalls have been released.</string>
+    <string name="new_recalls_title">Total Recall</string>
+    <string name="new_recalls_text">New product recalls have been released.</string>
     <string name="no_connection">Network Connection Not Found</string>
     <string name="loading">Loading&#8230;</string>
 </resources>

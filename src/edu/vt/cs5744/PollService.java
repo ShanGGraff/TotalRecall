@@ -2,11 +2,14 @@ package edu.vt.cs5744;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
@@ -34,7 +37,10 @@ public class PollService extends IntentService
 	    @SuppressWarnings("deprecation")
 	    boolean isNetworkAvailable = cm.getBackgroundDataSetting() &&
 	        cm.getActiveNetworkInfo() != null;
-	    if (!isNetworkAvailable) return;
+	    if (!isNetworkAvailable) 
+	    {
+	    	return;
+	    }
 	    
 	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 	    String query = prefs.getString(AccessDataGov.SEARCH_QUERY, null);
@@ -51,8 +57,10 @@ public class PollService extends IntentService
 	    }
 
 	    if (recalls.getSuccess().getResults().size() == 0)
-	        return;
-
+	    {
+	    	return;	
+	    }
+	        
 	    String resultId = recalls.getSuccess().getResults().get(0).getRecallNumber();
 
 	    if (!resultId.equals(lastResultId)) 
@@ -60,37 +68,34 @@ public class PollService extends IntentService
 	        Log.i(TAG, "Got a new result: " + resultId);
 	        
 	        Resources r = getResources();
-	        PendingIntent pi = PendingIntent
-	            .getActivity(this, 0, new Intent(this, RecallListFragment.class), 0);
-
-	        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
-	            .setTicker(r.getString(R.string.new_pictures_title))
-	            .setSmallIcon(android.R.drawable.ic_menu_report_image)
-	            .setContentTitle(r.getString(R.string.new_pictures_title))
-	            .setContentText(r.getString(R.string.new_pictures_text))
-	            .setContentIntent(pi)
-	            .setAutoCancel(true);
+	        
+	        // Instantiate a Builder object.
+	        NotificationCompat.Builder notification = 
+	        		new NotificationCompat.Builder(this)
+	        		.setSmallIcon(android.R.drawable.ic_notification_overlay)
+	                .setContentTitle(r.getString(R.string.new_recalls_title))
+	                .setContentText(r.getString(R.string.new_recalls_text))
+	        		.setAutoCancel(true);
+	        		
 	        // Creates an explicit intent for an Activity in your app
-	        Intent resultIntent = new Intent(this, RecallListFragment.class);
-
-	        // The stack builder object will contain an artificial back stack for the
-	        // started Activity.
-	        // This ensures that navigating backward from the Activity leads out of
-	        // your application to the Home screen.
-	        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-	        
-	        // Adds the back stack for the Intent (but not the Intent itself)
-	        stackBuilder.addParentStack(RecallListFragment.class);
-	        
-	        // Adds the Intent that starts the Activity to the top of the stack
-	        stackBuilder.addNextIntent(resultIntent);
-	        PendingIntent resultPendingIntent =
-	                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-	        notification.setContentIntent(resultPendingIntent);
-	        NotificationManager notificationManager = (NotificationManager)
-	            getSystemService(NOTIFICATION_SERVICE);
-
-	        notificationManager.notify(0, notification.build());
+			Intent resultIntent = new Intent(this, RecallListActivity.class);
+			
+			// The stack builder object will contain an artificial back stack for the
+			// started Activity.
+			// This ensures that navigating backward from the Activity leads out of
+			// your application to the Home screen.
+			TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+			// Adds the back stack for the Intent (but not the Intent itself)
+			stackBuilder.addParentStack(RecallListActivity.class);
+			// Adds the Intent that starts the Activity to the top of the stack
+			stackBuilder.addNextIntent(resultIntent);
+			PendingIntent resultPendingIntent =
+			        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+			notification.setContentIntent(resultPendingIntent);
+			NotificationManager mNotificationManager =
+			    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			// mId allows you to update the notification later on.
+			mNotificationManager.notify(0, notification.build());	
 	    }
 
 	    prefs.edit()
