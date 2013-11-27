@@ -7,30 +7,49 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+/**
+ * The purpose of this class is implement a View Pager that allows 
+ * individual recall pages to be navigated with page swipes.
+ * 
+ * @author Scott Chappell and Shane Graff
+ */
 public class RecallPagerActivity extends FragmentActivity 
 {
-	private ViewPager mViewPager;
-	private Recalls mApi;
+	private ViewPager mViewPager;	// Stores a ViewPager object
+	private Recalls mApi;			// Stores a Recalls object
 
+	/**
+	 * This creates the activity necessary for the View Pager.
+	 * 
+	 * @param savedInstanceState Certain saved states from the activity
+	 */
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.viewPager);
+        
+        // Creates a new ViewPager.
+        mViewPager = new ViewPager(this);	
+        
+        // Sets the id for the ViewPager.
+        mViewPager.setId(R.id.viewPager);	
         setContentView(mViewPager);
         
+        // Retrieves the Recalls object with the results.
         mApi = RecallReceiver.get(this).getRecalls();
         
+        // Adds each fragment to the Adapter.
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) 
         {
+        	// Returns the size of the list.
             @Override
             public int getCount() 
             {
             	return mApi.getSuccess().getResults().size();
             }
 
+            // Gets the position of the item in the list and returns a new RecallFragment.
             @Override
             public Fragment getItem(int pos) 
             {
@@ -39,6 +58,7 @@ public class RecallPagerActivity extends FragmentActivity
             }
         });
         
+        // Displays the recall ID as the title of each page.
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() 
         {
             public void onPageScrollStateChanged(int state) { }
@@ -55,8 +75,9 @@ public class RecallPagerActivity extends FragmentActivity
             }
         });
         
+        // This finds the correct recall result to display.
         String recall_number = (String)getIntent()
-                .getSerializableExtra(RecallFragment.EXTRA_RECALL_ID);
+                .getSerializableExtra(RecallFragment.RECALL_ID);
         for (int i = 0; i < mApi.getSuccess().getResults().size(); i++) 
         {
         	if (mApi.getSuccess().getResults().get(i).getRecallNumber().equals(recall_number)) 

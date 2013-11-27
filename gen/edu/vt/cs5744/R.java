@@ -40,9 +40,9 @@ public final class R {
         public static final int recall_hazards=0x7f060009;
         public static final int recall_initiator=0x7f060013;
         public static final int recall_list_item_dateTextView=0x7f06001c;
-        public static final int recall_list_item_descriptionTextView=0x7f06001d;
+        public static final int recall_list_item_desTextView=0x7f06001d;
         public static final int recall_list_item_idTextView=0x7f06001b;
-        public static final int recall_list_item_organizationTextView=0x7f06001a;
+        public static final int recall_list_item_orgTextView=0x7f06001a;
         public static final int recall_manufacturer=0x7f060010;
         public static final int recall_manufacturer_campaign_number=0x7f06000e;
         public static final int recall_manufacturers=0x7f060006;
